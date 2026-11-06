@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Body Line Fitness Centre | My daily progress</title>
+<meta name="description" content="Member dashboard prototype: choose muscle groups, pick your sets and tick off beginner exercises every day.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0f1114">
+<link rel="icon" href="data:,">
+<link rel="preload" href="fonts/anybody.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/hanken.woff2" as="font" type="font/woff2" crossorigin>
+<!--
+  MEMBER DASHBOARD PROTOTYPE (sample data)
+  - Everything on this page runs in the browser. Ticks are saved on the visitor's own phone (localStorage) per day.
+    There is no login or server yet, so a real member system (accounts, trainer view) is a later, separate job.
+  - The weekly chart and the membership card use SAMPLE data until a real member logs days. Delete SAMPLE in the script when going live.
+  - Gym Capacity card from the reference design is left out on purpose. Planned later: put it between #week and #membership.
+  ANIMATION HOOKS (add your own here):
+    .stat .v          stat numbers (count-up)
+    .bars .fill       weekly bars (grow from the bottom, class .ready is added after first paint)
+    .pl.just          a set plate that was just ticked (pop)
+    .ex.done          an exercise with every set ticked
+    .meter .fill      progress bars (today's sets, membership)
+    #plan .grp        a muscle group block (reveal)
+-->
+<style>
+@font-face{font-family:"Anybody";src:url(fonts/anybody.woff2) format("woff2");font-weight:100 900;font-stretch:50% 150%;font-display:swap}
+@font-face{font-family:"Hanken";src:url(fonts/hanken.woff2) format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Hanken";src:url(fonts/rupee.woff2) format("woff2");font-weight:100 900;font-display:swap;unicode-range:U+20B9}
+:root{
+  --bg:#0f1114; --side:#12151a; --panel:#171a20; --panel2:#1f232b; --line:#2b2f38;
+  --text:#f3f3ef; --muted:#a9aeb8; --red:#c9341a; --red-b:#ff7358; --green:#34c77b; --plate:#5a606c;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Hanken",system-ui,sans-serif;font-size:1rem;line-height:1.55}
+h1,h2,h3,h4{font-family:"Anybody","Hanken",sans-serif;margin:0;line-height:1.1;letter-spacing:-.005em}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--red-b);outline-offset:3px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-999px;top:8px;background:#fff;color:#000;padding:10px 14px;z-index:100;border-radius:6px}
+.skip:focus{left:8px}
+.sample-bar{background:#fff3c4;color:#4a3b00;font-size:.9rem;text-align:center;padding:8px 16px}
+
+/* shell */
+.app{display:block}
+.side{background:var(--side);border-bottom:1px solid var(--line);padding:14px 16px 10px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-family:"Anybody",sans-serif;font-weight:900;font-stretch:130%;font-size:1.02rem;line-height:1.05}
+.brand i{flex:none;display:inline-block;width:30px;height:10px;background:var(--red);border-radius:2px;position:relative;margin:0 4px}
+.brand i::before,.brand i::after{content:"";position:absolute;top:-5px;width:6px;height:20px;background:var(--text);border-radius:2px}
+.brand i::before{left:-3px}.brand i::after{right:-3px}
+.side nav{display:flex;gap:8px;overflow-x:auto;margin:12px -16px 0;padding:0 16px 4px;scrollbar-width:none}
+.side nav::-webkit-scrollbar{display:none}
+.side nav a{flex:none;display:flex;align-items:center;gap:10px;min-height:44px;padding:0 16px;border-radius:12px;text-decoration:none;font-weight:600;font-size:.95rem;color:#d6d9df;border:1px solid var(--line)}
+.side nav a svg{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.side nav a[aria-current="true"]{background:var(--red);border-color:var(--red);color:#fff}
+.side nav a.out{margin-left:auto}
+@media(min-width:1000px){
+  .app{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
+  .side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:28px 16px;border-bottom:0;border-right:1px solid var(--line)}
+  .brand{padding:0 8px 26px;font-size:1.1rem}
+  .side nav{flex-direction:column;margin:0;padding:0;overflow:visible;flex:1}
+  .side nav a{border-color:transparent;min-height:48px}
+  .side nav a:hover:not([aria-current="true"]){background:var(--panel2)}
+  .side nav a.out{margin:auto 0 0}
+}
+
+main{padding:24px 16px 80px;min-width:0}
+@media(min-width:700px){main{padding:32px 32px 90px}}
+.top h1{font-size:clamp(1.9rem,4.6vw,2.7rem);font-weight:800;font-stretch:118%}
+.top p{color:var(--muted);margin-top:8px;max-width:38em}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:22px}
+@media(min-width:700px){.panel{padding:26px}}
+.phead{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px}
+.phead h2{font-size:1.5rem;font-weight:800;font-stretch:118%}
+.phead .sub{color:var(--muted);font-size:.95rem}
+.chip-note{display:inline-block;background:#fff3c4;color:#4a3b00;font-size:.82rem;font-weight:600;padding:2px 10px;border-radius:999px}
+
+/* stats */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+@media(min-width:900px){.stats{grid-template-columns:repeat(4,1fr);gap:16px}}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
+.stat .ic{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.92rem;font-weight:600}
+.stat .ic span.b{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--panel2);color:var(--red-b)}
+.stat .ic svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.stat .v{display:block;font-family:"Anybody",sans-serif;font-weight:800;font-stretch:120%;font-size:2rem;line-height:1;margin-top:14px}
+.stat .v small{font-family:"Hanken",sans-serif;font-weight:600;font-size:.95rem;color:var(--muted);font-stretch:100%}
+.stat .cap{display:block;color:var(--muted);font-size:.85rem;margin-top:8px}
+
+/* meter */
+.meter{height:12px;border-radius:999px;background:var(--line);overflow:hidden}
+.meter .fill{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--red),var(--red-b));transition:width .5s cubic-bezier(.2,.7,.2,1)}
+
+/* today */
+.sumcard{display:grid;gap:12px;background:var(--panel2);border-radius:14px;padding:16px 18px;margin-top:18px}
+@media(min-width:700px){.sumcard{grid-template-columns:auto 1fr;align-items:center;gap:8px 28px}}
+.sumcard .big{font-family:"Anybody",sans-serif;font-weight:800;font-stretch:120%;font-size:2.3rem;line-height:1}
+.sumcard .big small{font-family:"Hanken",sans-serif;font-size:.95rem;font-weight:600;color:var(--muted)}
+.sumcard .msg{margin-top:10px;font-weight:600}
+.sumcard .reset{justify-self:start;margin-top:4px}
+.flow{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:26px}
+.step h3{display:flex;align-items:center;gap:12px;font-size:1.18rem;font-weight:700;font-stretch:112%}
+.step h3 .n{flex:none;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--panel2);color:var(--red-b);font-weight:800}
+.step .body{margin-top:14px}
+.hint{color:var(--muted);font-size:.93rem;margin-top:12px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{position:relative}
+.chip span{display:inline-flex;align-items:center;min-height:46px;padding:0 20px;border-radius:999px;border:2px solid #3a3f4a;font-weight:700;cursor:pointer;user-select:none;transition:background .2s,border-color .2s}
+.chip input:checked+span{background:var(--red);border-color:var(--red);color:#fff}
+.chip input:focus-visible+span{outline:3px solid var(--red-b);outline-offset:3px}
+.chip:hover input:not(:checked)+span{border-color:#6a7080}
+.seg{display:inline-flex;gap:10px}
+.seg .chip span{min-width:60px;justify-content:center;font-family:"Anybody",sans-serif;font-size:1.15rem;padding:0 10px}
+.empty{background:var(--panel2);border:2px dashed #3a3f4a;border-radius:14px;padding:22px;color:var(--muted)}
+.grp+.grp{margin-top:22px}
+.grp h4{font-size:1.05rem;font-weight:800;font-stretch:115%;color:var(--red-b);margin-bottom:10px}
+.exs{list-style:none;margin:0;padding:0;display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.ex{background:var(--panel2);border:2px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px;transition:border-color .3s}
+.ex.done{border-color:var(--green)}
+.ex-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.ex-name{font-family:"Hanken",sans-serif;font-size:1.05rem;font-weight:700;line-height:1.25;margin:0}
+.tag{flex:none;font-size:.78rem;font-weight:700;color:#d6d9df;background:#2d323c;border-radius:999px;padding:3px 10px}
+.ex-meta{color:var(--red-b);font-weight:600;font-size:.92rem}
+.ex-cue{color:#cfd3da;font-size:.93rem}
+.plates{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;align-items:center}
+.pl{width:48px;height:48px;border-radius:50%;border:3px solid var(--plate);background:#2b2f38;color:var(--text);font-family:"Anybody",sans-serif;font-weight:800;font-size:1.05rem;cursor:pointer;box-shadow:inset 0 0 0 4px #1f232b;transition:background .2s,border-color .2s}
+.pl[aria-pressed="true"]{background:var(--red);border-color:#ff9b86;color:#fff}
+.pl:hover{border-color:#8d929c}
+.ex-done{color:var(--green);font-weight:700;font-size:.92rem;margin-left:6px}
+.note{color:var(--muted);font-size:.88rem;margin-top:20px;border-top:1px solid var(--line);padding-top:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:999px;font:inherit;font-weight:700;font-size:.93rem;border:2px solid #4a505c;background:transparent;color:var(--text);cursor:pointer;text-decoration:none}
+.btn:hover{background:rgba(255,255,255,.07)}
+.btn-red{background:var(--red);border-color:var(--red);color:#fff}.btn-red:hover{background:#a82b14}
+
+/* weekly chart */
+.bars{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;height:230px;margin-top:22px;padding:0 2px;background:repeating-linear-gradient(0deg,transparent 0 44px,rgba(255,255,255,.06) 44px 45px);background-position:0 -1px}
+@media(min-width:700px){.bars{gap:18px;height:260px}}
+.col{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;min-width:0}
+.col .val{font-weight:700;font-size:.9rem;margin-bottom:6px}
+.col .track{flex:1;display:flex;align-items:flex-end;width:100%;max-width:56px;min-height:0}
+.col .fill{display:block;width:100%;height:100%;background:var(--red);border-radius:8px 8px 3px 3px;transform-origin:bottom;transform:scaleY(var(--h,0))}
+.col.today .fill{background:linear-gradient(180deg,var(--red-b),var(--red))}
+.col .day{color:var(--muted);font-size:.85rem;margin-top:10px;font-weight:600}
+.col.today .day{color:var(--text)}
+.bars:not(.ready) .fill{transform:scaleY(0)}
+.bars.ready .fill{transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+
+/* membership */
+.mem{display:grid;gap:16px;margin-top:18px}
+@media(min-width:800px){.mem{grid-template-columns:1.2fr 1fr;align-items:center;gap:30px}}
+.mem .row{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:.92rem;margin-top:10px}
+.mem .name{font-family:"Anybody",sans-serif;font-weight:800;font-stretch:118%;font-size:1.6rem}
+.mem .up{background:var(--panel2);border-radius:14px;padding:18px}
+.mem .up p{color:#cfd3da;margin-bottom:12px}
+
+@media (prefers-reduced-motion:no-preference){
+  .pl.just{animation:pop .4s cubic-bezier(.3,1.6,.5,1)}
+  @keyframes pop{0%{transform:scale(.8)}60%{transform:scale(1.14)}100%{transform:scale(1)}}
+  .grp{animation:grpin .45s ease both}
+  @keyframes grpin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<aside class="sample-bar" aria-label="Sample notice"><strong>Prototype.</strong> Member dashboard by Your Name for Body Line Fitness Centre. The week chart and membership use sample data. Your ticks are saved on this phone only.</aside>
+
+<div class="app">
+  <aside class="side">
+    <a class="brand" href="index.html" aria-label="Body Line Fitness Centre, back to website"><i aria-hidden="true"></i><span>Body Line<br>Fitness Centre</span></a>
+    <nav aria-label="Dashboard">
+      <a href="#overview" aria-current="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg>Overview</a>
+      <a href="#today"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18M6 8v8M9 6v12M15 6v12M18 8v8"/></svg>Today's workout</a>
+      <a href="#week"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V5M19 20v-7"/></svg>This week</a>
+      <a href="#membership"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M3 10.5h18"/></svg>Membership</a>
+      <a class="out" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7M6 9.5V20h12V9.5"/></svg>Website</a>
+    </nav>
+  </aside>
+
+  <main id="main">
+    <header class="top">
+      <h1>Your daily progress</h1>
+      <p>Welcome back, Rahul. Pick what you are training, do your sets and tick them off. Your trainer can check your form on your next visit.</p>
+    </header>
+
+    <section id="overview" aria-label="Summary" class="stats">
+      <div class="stat"><div class="ic"><span class="b"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c1 3.5 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 .3 1.2 1 2 2 2 0-3-1-5 1-8z"/></svg></span>Streak</div><span class="v" id="sStreak">0</span><span class="cap">Days in a row</span></div>
+      <div class="stat"><div class="ic"><span class="b"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18M6 8v8M9 6v12M15 6v12M18 8v8"/></svg></span>Sets today</div><span class="v" id="sSets">0</span><span class="cap" id="sSetsCap">Choose muscles to begin</span></div>
+      <div class="stat"><div class="ic"><span class="b"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2.5"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></span>This week</div><span class="v" id="sWeek">0</span><span class="cap">Workout days in the last 7</span></div>
+      <div class="stat"><div class="ic"><span class="b"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M3 10.5h18"/></svg></span>Membership</div><span class="v" id="sMem">0</span><span class="cap">Days left (sample)</span></div>
+    </section>
+
+    <section id="today" class="panel" aria-labelledby="h-today">
+      <div class="phead"><h2 id="h-today">Today's workout</h2><span class="sub" id="dateLabel"></span></div>
+
+      <div class="sumcard">
+        <div class="big"><span id="sDone">0</span> <small>of <span id="sTarget">0</span> sets</small></div>
+        <div>
+          <div class="meter" role="progressbar" aria-label="Sets completed today" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="mToday"><span class="fill" id="fToday"></span></div>
+          <p class="msg" id="sMsg" aria-live="polite">Choose a muscle group to start.</p>
+        </div>
+        <button class="btn reset" type="button" id="reset">Reset today</button>
+      </div>
+
+      <ol class="flow">
+        <li class="step">
+          <h3 id="h-groups"><span class="n" aria-hidden="true">1</span>Choose muscle groups</h3>
+          <div class="body">
+            <div class="chips" role="group" aria-labelledby="h-groups" id="chips"></div>
+            <p class="hint" id="groupHint">Beginners do well with 2 or 3 groups in one session.</p>
+          </div>
+        </li>
+        <li class="step">
+          <h3 id="h-sets"><span class="n" aria-hidden="true">2</span>How many sets per exercise?</h3>
+          <div class="body">
+            <div class="seg" role="radiogroup" aria-labelledby="h-sets" id="seg"></div>
+            <p class="hint">Beginners: 2 to 3 sets of 8 to 12 slow reps, resting 60 to 90 seconds between sets.</p>
+          </div>
+        </li>
+        <li class="step">
+          <h3 id="h-ex"><span class="n" aria-hidden="true">3</span>Your beginner exercises</h3>
+          <div class="body"><div id="plan"></div></div>
+        </li>
+      </ol>
+      <p class="note">General beginner guide, not personal advice. Warm up for 5 to 10 minutes, start with light weights, and ask your trainer to check your form. Stop if something hurts.</p>
+      <p class="vh" id="announce" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="week" class="panel" aria-labelledby="h-week">
+      <div class="phead"><h2 id="h-week">Sets in the last 7 days</h2><span class="chip-note" id="sampleTag" hidden>Sample data until you log your own days</span></div>
+      <div class="bars" id="bars" role="group" aria-label="Sets completed each day for the last 7 days"></div>
+    </section>
+
+    <section id="membership" class="panel" aria-labelledby="h-mem">
+      <div class="phead"><h2 id="h-mem">Membership</h2><span class="chip-note">Sample</span></div>
+      <div class="mem">
+        <div>
+          <p class="name">3 months · ₹1,500</p>
+          <div class="meter" role="progressbar" aria-label="Membership time used" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="mMem" style="margin-top:14px"><span class="fill" id="fMem"></span></div>
+          <div class="row"><span id="memStart"></span><span id="memEnd"></span></div>
+        </div>
+        <div class="up">
+          <p>Members on the 12-month plan pay ₹4,800, which is ₹400 a month.</p>
+          <a class="btn btn-red" href="index.html#plans">See the plans</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(s, c){ return (c||document).querySelector(s); };
+  var $$ = function(s, c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); };
+
+  var GROUPS = [
+    {id:'chest', name:'Chest'}, {id:'back', name:'Back'}, {id:'shoulders', name:'Shoulders'},
+    {id:'biceps', name:'Biceps'}, {id:'triceps', name:'Triceps'}, {id:'legs', name:'Legs'}, {id:'core', name:'Core'}
+  ];
+  /* n = name, t = equipment, r = target, c = coaching cue. Beginner-friendly, ask the trainer to adjust. */
+  var EX = {
+    chest:[
+      {n:'Incline push-up', t:'Bodyweight', r:'8 to 12 reps', c:'Hands on a bench, body in one straight line. Lower your chest to the edge.'},
+      {n:'Machine chest press', t:'Machine', r:'10 to 12 reps', c:'Back flat on the pad. Press out smoothly and keep a slight bend in your elbows.'},
+      {n:'Dumbbell bench press', t:'Dumbbells', r:'8 to 12 reps', c:'Use light weights. Lower slowly until your elbows are just below the bench.'}
+    ],
+    back:[
+      {n:'Lat pulldown', t:'Machine', r:'10 to 12 reps', c:'Pull the bar to your upper chest. Lead with your elbows, not your hands.'},
+      {n:'Seated cable row', t:'Machine', r:'10 to 12 reps', c:'Chest up. Squeeze your shoulder blades together and do not swing.'},
+      {n:'One-arm dumbbell row', t:'Dumbbell', r:'8 to 12 reps each side', c:'Hand on a bench, back flat. Pull the weight towards your hip.'}
+    ],
+    shoulders:[
+      {n:'Seated dumbbell shoulder press', t:'Dumbbells', r:'8 to 12 reps', c:'Press overhead without arching your back. Keep the weights light.'},
+      {n:'Lateral raise', t:'Dumbbells', r:'10 to 15 reps', c:'Lift to shoulder height with a soft bend in the elbows. Lower slowly.'},
+      {n:'Face pull', t:'Cable', r:'12 to 15 reps', c:'Pull the rope towards your face with your elbows high.'}
+    ],
+    biceps:[
+      {n:'Dumbbell curl', t:'Dumbbells', r:'10 to 12 reps', c:'Keep your elbows by your sides. No swinging.'},
+      {n:'Hammer curl', t:'Dumbbells', r:'10 to 12 reps', c:'Palms face each other. Take your time on the way down.'},
+      {n:'Cable curl', t:'Cable', r:'10 to 12 reps', c:'Keep your wrists straight and your upper arms still.'}
+    ],
+    triceps:[
+      {n:'Triceps pushdown', t:'Cable', r:'10 to 12 reps', c:'Elbows pinned to your sides. Push down until your arms are straight.'},
+      {n:'Overhead dumbbell extension', t:'Dumbbell', r:'10 to 12 reps', c:'Hold one dumbbell with both hands and keep your elbows close to your head.'},
+      {n:'Close-grip push-up', t:'Bodyweight', r:'6 to 10 reps', c:'Hands under your shoulders, elbows brushing your sides. Do it from your knees if needed.'}
+    ],
+    legs:[
+      {n:'Bodyweight squat', t:'Bodyweight', r:'10 to 15 reps', c:'Feet shoulder-width apart. Sit back and down with your knees following your toes.'},
+      {n:'Leg press', t:'Machine', r:'10 to 12 reps', c:'Feet shoulder-width apart. Do not lock your knees at the top.'},
+      {n:'Leg curl', t:'Machine', r:'10 to 12 reps', c:'Slow and controlled. Keep your hips on the pad.'},
+      {n:'Calf raise', t:'Bodyweight', r:'12 to 15 reps', c:'Rise onto your toes, pause for a second, then lower slowly.'}
+    ],
+    core:[
+      {n:'Plank', t:'Bodyweight', r:'20 to 40 seconds', c:'Straight line from head to heels. Do not let your hips sag.'},
+      {n:'Dead bug', t:'Bodyweight', r:'8 to 10 reps each side', c:'Keep your lower back on the floor and move slowly.'},
+      {n:'Bird dog', t:'Bodyweight', r:'8 to 10 reps each side', c:'Reach long and keep your hips level.'}
+    ]
+  };
+  /* SAMPLE data: oldest of the previous 6 days first. Delete when members log real days. */
+  var SAMPLE = [16, 24, 0, 18, 21, 27];
+
+  /* ---------- storage (per day, in this browser only) ---------- */
+  var KEY = 'bl.dash.v1';
+  function load(){
+    try{ var s = localStorage.getItem(KEY); if(s){ var o = JSON.parse(s); if(o && o.days) return o; } }catch(e){}
+    return {days:{}};
+  }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(store)); }catch(e){} }
+  var store = load();
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+  function dateAt(offset){ var d = new Date(); d.setHours(12,0,0,0); d.setDate(d.getDate() - offset); return d; }
+  function keyFor(offset){ var d = dateAt(offset); return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()); }
+  var TODAY = keyFor(0);
+  function blank(){ return {groups:[], sets:3, done:{}}; }
+  function day(){ return store.days[TODAY] || (store.days[TODAY] = blank()); }
+
+  function exList(d){
+    var out = [];
+    GROUPS.forEach(function(g){
+      if(d.groups.indexOf(g.id) > -1) EX[g.id].forEach(function(e, i){ out.push({id: g.id + '-' + i, g: g, e: e}); });
+    });
+    return out;
+  }
+  function setsDone(d){
+    var n = 0;
+    exList(d).forEach(function(x){ var a = d.done[x.id] || []; for(var i = 0; i < d.sets; i++){ if(a[i]) n++; } });
+    return n;
+  }
+  function target(d){ return exList(d).length * d.sets; }
+
+  function hasRealPrior(){
+    for(var k in store.days){ if(k !== TODAY && setsDone(store.days[k]) > 0) return true; }
+    return false;
+  }
+  var sampleMode = false;
+  function valueFor(off){
+    if(off === 0) return setsDone(day());
+    if(sampleMode){ return (off >= 1 && off <= 6) ? SAMPLE[6 - off] : 0; }
+    var d = store.days[keyFor(off)];
+    return d ? setsDone(d) : 0;
+  }
+
+  /* ---------- build static controls ---------- */
+  var chipsBox = $('#chips');
+  GROUPS.forEach(function(g){
+    var l = document.createElement('label'); l.className = 'chip';
+    l.innerHTML = '<input class="vh" type="checkbox" value="' + g.id + '"><span>' + g.name + '</span>';
+    chipsBox.appendChild(l);
+  });
+  var segBox = $('#seg');
+  [1,2,3,4].forEach(function(n){
+    var l = document.createElement('label'); l.className = 'chip';
+    l.innerHTML = '<input class="vh" type="radio" name="sets" value="' + n + '"><span><span class="vh">Sets: </span>' + n + '</span>';
+    segBox.appendChild(l);
+  });
+
+  function announce(t){ $('#announce').textContent = t; }
+
+  /* ---------- exercise plan ---------- */
+  function renderPlan(){
+    var d = day(), box = $('#plan');
+    box.innerHTML = '';
+    if(!d.groups.length){
+      box.innerHTML = '<p class="empty">Pick at least one muscle group above and your beginner exercises will appear here.</p>';
+      return;
+    }
+    GROUPS.forEach(function(g){
+      if(d.groups.indexOf(g.id) < 0) return;
+      var sec = document.createElement('section');
+      sec.className = 'grp'; sec.setAttribute('aria-labelledby', 'gh-' + g.id);
+      var html = '<h4 id="gh-' + g.id + '">' + g.name + '</h4><ul class="exs">';
+      EX[g.id].forEach(function(e, i){
+        var id = g.id + '-' + i, a = d.done[id] || [], all = true, plates = '';
+        for(var k = 0; k < d.sets; k++){
+          if(!a[k]) all = false;
+          plates += '<button type="button" class="pl" data-ex="' + id + '" data-k="' + k + '" aria-pressed="' + (a[k] ? 'true' : 'false') +
+                    '" aria-label="' + e.n + ', set ' + (k+1) + ' of ' + d.sets + '">' + (k+1) + '</button>';
+        }
+        html += '<li class="ex' + (all ? ' done' : '') + '"><div class="ex-top"><h5 class="ex-name">' + e.n + '</h5><span class="tag">' + e.t + '</span></div>' +
+                '<p class="ex-meta">' + d.sets + ' ' + (d.sets === 1 ? 'set' : 'sets') + ' · ' + e.r + '</p><p class="ex-cue">' + e.c + '</p>' +
+                '<div class="plates" role="group" aria-label="' + e.n + ' sets">' + plates + '<span class="ex-done"' + (all ? '' : ' hidden') + '>Done</span></div></li>';
+      });
+      sec.innerHTML = html + '</ul>';
+      box.appendChild(sec);
+    });
+  }
+
+  /* ---------- summary, stats, chart ---------- */
+  function renderSummary(){
+    var d = day(), done = setsDone(d), tgt = target(d), pct = tgt ? Math.round(done / tgt * 100) : 0;
+    $('#sDone').textContent = done; $('#sTarget').textContent = tgt;
+    $('#fToday').style.width = pct + '%';
+    $('#mToday').setAttribute('aria-valuenow', pct);
+    var m = !tgt ? 'Choose a muscle group to start.' : !done ? 'Ready when you are. Tick each set as you finish it.' :
+            done < tgt ? 'Keep going. ' + (tgt - done) + (tgt - done === 1 ? ' set' : ' sets') + ' to go.' : 'Workout complete. Nice work!';
+    $('#sMsg').textContent = m;
+    $('#sSets').innerHTML = done + (tgt ? ' <small>/ ' + tgt + '</small>' : '');
+    $('#sSetsCap').textContent = tgt ? pct + '% of today\'s plan' : 'Choose muscles to begin';
+  }
+  var barsBuilt = false;
+  function buildBars(){
+    var box = $('#bars'); box.innerHTML = '';
+    for(var off = 6; off >= 0; off--){
+      var c = document.createElement('div');
+      c.className = 'col' + (off === 0 ? ' today' : ''); c.dataset.off = off; c.setAttribute('role', 'group');
+      c.innerHTML = '<span class="val"></span><div class="track"><span class="fill"></span></div><span class="day">' +
+        (off === 0 ? 'Today' : new Intl.DateTimeFormat('en-IN', {weekday:'short'}).format(dateAt(off))) + '</span>';
+      box.appendChild(c);
+    }
+    barsBuilt = true;
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ box.classList.add('ready'); }); });
+  }
+  function renderWeek(){
+    if(!barsBuilt) buildBars();
+    var vals = [], max = 10, off;
+    for(off = 6; off >= 0; off--){ var v = valueFor(off); vals.push(v); if(v > max) max = v; }
+    $$('#bars .col').forEach(function(c, i){
+      $('.val', c).textContent = vals[i];
+      $('.fill', c).style.setProperty('--h', (vals[i] / max).toFixed(3));
+      c.setAttribute('aria-label', ($('.day', c).textContent) + ': ' + vals[i] + ' sets');
+    });
+    $('#sampleTag').hidden = !sampleMode;
+    // stats
+    var streak = 0, i = valueFor(0) > 0 ? 0 : 1;
+    while(i < 400 && valueFor(i) > 0){ streak++; i++; }
+    $('#sStreak').innerHTML = streak + ' <small>' + (streak === 1 ? 'day' : 'days') + '</small>';
+    var wk = 0; for(off = 0; off < 7; off++){ if(valueFor(off) > 0) wk++; }
+    $('#sWeek').innerHTML = wk + ' <small>/ 7</small>';
+  }
+  function renderAll(){ sampleMode = !hasRealPrior(); renderSummary(); renderWeek(); }
+
+  /* ---------- sync controls with saved state ---------- */
+  function syncControls(){
+    var d = day();
+    $$('#chips input').forEach(function(i){ i.checked = d.groups.indexOf(i.value) > -1; });
+    $$('#seg input').forEach(function(i){ i.checked = (+i.value === d.sets); });
+    var n = d.groups.length;
+    $('#groupHint').textContent = n === 0 ? 'Beginners do well with 2 or 3 groups in one session.' :
+      n <= 3 ? 'Good choice. Next, pick your sets.' : 'That is a long session for a beginner. 2 or 3 groups is plenty.';
+  }
+
+  chipsBox.addEventListener('change', function(){
+    var d = day();
+    d.groups = $$('#chips input:checked').map(function(i){ return i.value; });
+    save(); syncControls(); renderPlan(); renderAll();
+    var names = GROUPS.filter(function(g){ return d.groups.indexOf(g.id) > -1; }).map(function(g){ return g.name; });
+    announce(names.length ? names.join(', ') + ' selected. ' + exList(d).length + ' exercises.' : 'No muscle groups selected.');
+  });
+  segBox.addEventListener('change', function(e){
+    var d = day(); d.sets = +e.target.value; save(); renderPlan(); renderAll();
+    announce(d.sets + (d.sets === 1 ? ' set' : ' sets') + ' per exercise.');
+  });
+  $('#plan').addEventListener('click', function(e){
+    var b = e.target.closest('.pl'); if(!b) return;
+    var d = day(), id = b.dataset.ex, k = +b.dataset.k;
+    var a = d.done[id] = d.done[id] || [false, false, false, false];
+    a[k] = !a[k];
+    b.setAttribute('aria-pressed', String(a[k]));
+    b.classList.add('just'); setTimeout(function(){ b.classList.remove('just'); }, 500);
+    var all = true; for(var i = 0; i < d.sets; i++){ if(!a[i]) all = false; }
+    var li = b.closest('.ex'); li.classList.toggle('done', all); $('.ex-done', li).hidden = !all;
+    save(); renderAll();
+  });
+  $('#reset').addEventListener('click', function(){
+    store.days[TODAY] = blank(); save(); syncControls(); renderPlan(); renderAll(); announce('Today was reset.');
+  });
+
+  /* ---------- membership (sample: started 20 days ago, 3 months) ---------- */
+  (function(){
+    var start = dateAt(20), end = new Date(start); end.setMonth(end.getMonth() + 3);
+    var total = Math.round((end - start) / 864e5), left = Math.max(0, Math.round((end - dateAt(0)) / 864e5)), used = Math.round((1 - left / total) * 100);
+    var f = new Intl.DateTimeFormat('en-IN', {day:'numeric', month:'short'});
+    $('#sMem').innerHTML = left + ' <small>days</small>';
+    $('#fMem').style.width = used + '%'; $('#mMem').setAttribute('aria-valuenow', used);
+    $('#memStart').textContent = 'Started ' + f.format(start); $('#memEnd').textContent = 'Ends ' + f.format(end);
+  })();
+
+  $('#dateLabel').textContent = new Intl.DateTimeFormat('en-IN', {weekday:'long', day:'numeric', month:'long'}).format(new Date());
+
+  /* ---------- nav highlight while scrolling ---------- */
+  if('IntersectionObserver' in window){
+    var links = {}; $$('.side nav a[href^="#"]').forEach(function(a){ links[a.getAttribute('href').slice(1)] = a; });
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(en){
+        if(en.isIntersecting){ $$('.side nav a').forEach(function(a){ a.removeAttribute('aria-current'); }); links[en.target.id].setAttribute('aria-current', 'true'); }
+      });
+    }, {rootMargin:'-30% 0px -60% 0px'});
+    Object.keys(links).forEach(function(id){ io.observe(document.getElementById(id)); });
+  }
+
+  syncControls(); renderPlan(); renderAll();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Body Line Fitness Centre Gym | Mahishadal and Nandakumar</title>
+<meta name="description" content="Body Line Fitness Centre Gym, Mahishadal and Nandakumar. Visit, see the machines and get diet advice from the trainer. Join only if you like it. Plans: 3 months ₹1,500, 6 months ₹3,000, 12 months ₹4,800.">
+<meta name="theme-color" content="#16181d">
+<link rel="icon" href="data:,">
+<link rel="preload" href="fonts/anybody.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/hanken.woff2" as="font" type="font/woff2" crossorigin>
+<!--
+  CUSTOMIZE FOR THE REAL GYM (Body Line Fitness Centre: Mahishadal, Nandakumar)
+  1. Delete the <aside class="sample-bar"> line and replace "Your Name" in the footer.
+  2. In the script at the bottom, set each branch's WhatsApp number (country code, digits only, e.g. 919812345678)
+     and phone (e.g. +919812345678) in BRANCHES.
+  3. In the "Our branches" section: real address, timings and photos for each branch.
+  4. Replace each Directions link with the branch's Google Maps share link.
+  5. Confirm prices and what each plan includes (trainer, locker, shower, joining fee?). Plans may differ per branch.
+  6. Replace the grey "Photo" boxes with real photos (compress them to under 200 KB each).
+  7. Add the real logo and colours if the owner has them (colour variables are at the top of the style block).
+-->
+<style>
+@font-face{font-family:"Anybody";src:url(fonts/anybody.woff2) format("woff2");font-weight:100 900;font-stretch:50% 150%;font-display:swap}
+@font-face{font-family:"Hanken";src:url(fonts/hanken.woff2) format("woff2");font-weight:100 900;font-display:swap}
+/* Rupee sign is missing from the Hanken subset, so a 1 KB slice of Anybody supplies just that glyph */
+@font-face{font-family:"Hanken";src:url(fonts/rupee.woff2) format("woff2");font-weight:100 900;font-display:swap;unicode-range:U+20B9}
+:root{
+  --graphite:#16181d; --iron:#2b2f38; --iron-2:#3a3f4a; --chalk:#f3f3ef; --chalk-2:#e4e4dd;
+  --red:#c9341a; --red-text:#b02a12; --red-bright:#ff7358; --green:#1a7f4b; --ink:#1b1d22; --muted:#555a65;
+  --wrap:1120px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;font-family:"Hanken",system-ui,sans-serif;font-size:1.0625rem;line-height:1.6;color:var(--ink);background:var(--chalk)}
+h1,h2,h3{font-family:"Anybody","Hanken",sans-serif;line-height:1.05;margin:0;letter-spacing:-.01em}
+h2{font-size:clamp(2rem,5vw,3.25rem);font-weight:800;font-stretch:120%}
+p{margin:0 0 1em}
+a{color:inherit}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 20px}
+:focus-visible{outline:3px solid var(--red-bright);outline-offset:3px}
+.skip{position:absolute;left:-999px;top:8px;background:#fff;color:#000;padding:10px 14px;z-index:100;border-radius:6px}
+.skip:focus{left:8px}
+.sample-bar{background:#fff3c4;color:#4a3b00;font-size:.9rem;text-align:center;padding:8px 16px}
+.sample-bar strong{font-weight:700}
+
+/* header */
+header.top{background:var(--graphite);color:var(--chalk)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:14px;padding-bottom:14px}
+.brand{font-family:"Anybody",sans-serif;font-weight:900;font-stretch:130%;font-size:1.25rem;text-decoration:none;white-space:nowrap;display:flex;align-items:center;gap:10px}
+.brand i{display:inline-block;width:28px;height:10px;background:var(--red);border-radius:2px;position:relative}
+.brand i::before,.brand i::after{content:"";position:absolute;top:-5px;width:6px;height:20px;background:var(--chalk);border-radius:2px}
+.brand i::before{left:-3px}.brand i::after{right:-3px}
+.top nav{display:none;gap:22px;font-weight:600;font-size:.95rem}
+.top nav a{text-decoration:none;opacity:.85}.top nav a:hover{opacity:1;text-decoration:underline}
+@media(min-width:820px){.top nav{display:flex}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;font-weight:700;text-decoration:none;border:2px solid transparent;font:inherit;font-weight:700;cursor:pointer;line-height:1}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:#a82b14}
+.btn-wa{background:var(--green);color:#fff}.btn-wa:hover{background:#146339}
+.btn-line{background:transparent;border-color:var(--chalk);color:var(--chalk)}.btn-line:hover{background:rgba(255,255,255,.1)}
+.btn-sm{white-space:nowrap;min-height:42px;padding:0 18px;font-size:.95rem}
+
+/* hero */
+.hero{background:var(--graphite);color:var(--chalk);padding:56px 0 84px;position:relative;overflow:hidden}
+.hero h1{font-weight:900;font-stretch:135%;font-size:clamp(2.6rem,9vw,6rem);max-width:12ch;text-transform:none}
+.hero h1 em{font-style:normal;color:var(--red-bright)}
+.hero p.lead{font-size:1.2rem;max-width:34em;margin:22px 0 28px;color:#d9dadd}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px}
+.hero .note{margin-top:18px;font-size:.95rem;color:#b9bcc3}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:18px;background:repeating-linear-gradient(90deg,var(--iron) 0 14px,var(--graphite) 14px 20px)}
+
+section{padding:72px 0}
+.kicker{font-weight:700;color:var(--red-text);margin-bottom:10px;font-size:1rem}
+
+/* steps */
+.steps{list-style:none;padding:0;margin:36px 0 0;display:grid;gap:18px;counter-reset:s}
+@media(min-width:820px){.steps{grid-template-columns:repeat(3,1fr)}}
+.steps li{counter-increment:s;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:22px 22px 24px;position:relative}
+.steps li::before{content:counter(s);font-family:"Anybody",sans-serif;font-weight:900;font-stretch:140%;font-size:3.4rem;line-height:1;color:var(--red-text);display:block;margin-bottom:8px}
+.steps h3{font-size:1.5rem;font-weight:800;font-stretch:115%;margin-bottom:8px}
+.steps p{margin:0;color:var(--muted)}
+
+/* plans: the barbell */
+#plans{background:var(--graphite);color:var(--chalk)}
+#plans .kicker{color:var(--red-bright)}
+#plans .intro{max-width:36em;color:#d9dadd;margin-top:14px}
+.bar{position:relative;margin-top:44px;display:grid;gap:44px;justify-items:center}
+.bar::before{content:"";position:absolute;background:linear-gradient(90deg,#8d929c,#d5d8de 50%,#8d929c);z-index:0;
+  top:0;bottom:0;left:50%;width:14px;transform:translateX(-50%);border-radius:7px}
+.plan{position:relative;z-index:1;text-align:center;width:100%;max-width:340px}
+.plate{margin:0 auto;border-radius:50%;background:radial-gradient(circle at 50% 50%,var(--graphite) 0 9%,var(--iron) 9.5% 100%);
+  box-shadow:inset 0 0 0 6px var(--iron-2),inset 0 0 0 10px var(--iron),inset 0 0 0 12px #5a606c;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:1;position:relative}
+.plate .m{font-weight:700;font-size:1.05rem;color:#d9dadd}
+.plate .p{font-family:"Anybody",sans-serif;font-weight:900;font-stretch:125%;line-height:1;margin-top:4px}
+.plate.s1{width:210px}.plate.s1 .p{font-size:2.1rem}
+.plate.s2{width:240px}.plate.s2 .p{font-size:2.4rem}
+.plate.s3{width:280px;background:radial-gradient(circle at 50% 50%,var(--graphite) 0 9%,var(--red) 9.5% 100%);
+  box-shadow:inset 0 0 0 6px #e0583d,inset 0 0 0 10px var(--red),inset 0 0 0 12px #ff9b86}
+.plate.s3 .p{font-size:2.9rem}.plate.s3 .m{color:#fff}
+.plate::before{content:"";position:absolute;inset:50% auto auto 50%;width:26px;height:26px;transform:translate(-50%,-50%);border-radius:50%;background:var(--graphite);box-shadow:inset 0 0 0 3px #8d929c;z-index:0}
+.plate>*{position:relative;z-index:1}
+/* keep text clear of the hole: push text above centre */
+.plate .m{position:absolute;top:calc(50% - 56px);margin:0}.plate .p{position:absolute;top:calc(50% + 24px);margin:0}
+.plan .per,.plan .sub{background:var(--graphite);position:relative;z-index:1}
+.plan .per{margin-top:0;padding-top:16px;font-weight:700;font-size:1.25rem}
+.plan .per span{color:#c0c3ca;font-weight:500;font-size:1rem}
+.plan .tag{display:inline-block;position:relative;z-index:1;margin:8px 0 0;background:var(--chalk);color:var(--graphite);font-weight:800;border-radius:999px;padding:4px 14px;font-size:.92rem}
+.plan .tag.best{background:#ffe27a}
+.plan .sub{margin:0;padding:8px 0 4px;color:#c0c3ca;font-size:.95rem}
+@media(min-width:900px){
+  .bar{grid-template-columns:repeat(3,1fr);align-items:start;gap:20px}
+  .plate.s1{margin-top:35px}.plate.s2{margin-top:20px}
+  .bar::before{top:133px;bottom:auto;left:0;right:0;width:auto;height:14px;transform:none;background:linear-gradient(180deg,#8d929c,#d5d8de 50%,#8d929c)}
+}
+.plans-foot{margin-top:46px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.plans-foot p{margin:0;color:#c0c3ca;flex-basis:100%}
+
+/* visit */
+.visit{display:grid;gap:36px}
+@media(min-width:900px){.visit{grid-template-columns:1fr 1fr;align-items:start}}
+.checks{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:12px}
+.checks li{display:grid;grid-template-columns:30px 1fr;gap:10px;font-weight:600}
+.checks li::before{content:"";width:22px;height:22px;margin-top:3px;border-radius:50%;background:var(--red-text) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+.checks small{display:block;font-weight:400;color:var(--muted);font-size:.95rem}
+.photos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ph{background:var(--chalk-2);border:2px dashed #9a9ea8;border-radius:12px;min-height:150px;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;color:#3f434c;font-weight:600;font-size:.95rem}
+.ph:first-child{grid-column:1/-1;min-height:220px}
+
+/* hours + map */
+#find{background:var(--chalk-2)}
+.find{display:grid;gap:30px}
+@media(min-width:900px){.find{grid-template-columns:1fr 1.2fr}}
+.hours{width:100%;border-collapse:collapse;margin-top:18px}
+.hours th,.hours td{text-align:left;padding:10px 0;border-bottom:1px solid #b9bcb2}
+.hours th{font-weight:700;padding-right:16px}
+.flag{font-size:.9rem;color:#4a3b00;background:#fff3c4;display:inline-block;padding:2px 10px;border-radius:6px;margin-top:10px}
+.map{background:var(--graphite);color:var(--chalk);border-radius:14px;min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:24px;overflow:hidden}
+.map iframe{border:0;width:100%;height:100%;min-height:300px}
+.map small{color:#b9bcc3;max-width:26em}
+
+/* faq */
+.faq{max-width:760px;margin-top:28px}
+.faq details{border-bottom:2px solid var(--ink)}
+.faq summary{cursor:pointer;font-weight:700;font-size:1.15rem;padding:18px 36px 18px 0;list-style:none;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:1.6rem;font-family:"Anybody",sans-serif}
+.faq details[open] summary::after{content:"−"}
+.faq details p{padding:0 0 18px;margin:0;color:var(--muted)}
+
+/* form */
+#call{background:var(--graphite);color:var(--chalk)}
+#call .kicker{color:var(--red-bright)}
+.callgrid{display:grid;gap:34px}
+@media(min-width:900px){.callgrid{grid-template-columns:1fr 1fr;align-items:start}}
+form{display:grid;gap:16px;background:var(--iron);padding:24px;border-radius:16px}
+label{font-weight:700;display:block;margin-bottom:6px}
+input,select{width:100%;min-height:50px;font:inherit;padding:0 14px;border-radius:10px;border:2px solid #7b8190;background:#fff;color:var(--ink)}
+input:focus-visible,select:focus-visible{outline-offset:2px}
+.hp{position:absolute;left:-9999px;height:0;overflow:hidden}
+.msg{min-height:1.5em;margin:0;font-weight:600}
+.msg.err{color:#ffb3a3}.msg.ok{color:#9be3b8}
+.alt{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+
+footer{background:#0f1114;color:#b9bcc3;padding:36px 0 110px;font-size:.95rem}
+footer a{color:#fff}
+footer .wrap{display:grid;gap:8px}
+
+/* mobile sticky bar */
+.callbar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(22,24,29,.96);border-top:1px solid var(--iron-2)}
+.callbar .btn{min-height:50px}
+@media(min-width:820px){.callbar{display:none}footer{padding-bottom:36px}}
+
+/* branches */
+.brand{white-space:normal;line-height:1.05;font-size:1.05rem}
+.brand i{flex:none}
+@media(min-width:420px){.brand{font-size:1.25rem}}
+.btn-ink{background:transparent;border-color:var(--ink);color:var(--ink)}.btn-ink:hover{background:rgba(0,0,0,.07)}
+.branches{display:grid;gap:18px;margin-top:30px}
+@media(min-width:820px){.branches{grid-template-columns:1fr 1fr;gap:24px}}
+.branch{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:24px}
+.branch h3{font-size:1.9rem;font-weight:800;font-stretch:120%}
+.branch .addr{margin:10px 0 0;color:var(--muted)}
+.branch .hours{margin:8px 0 0}
+.bact{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+
+/* ================= ANIMATION DEMO =================
+   Three alternative animation styles, switched by the yellow picker.
+   For the real site: keep ONE style, delete the other two blocks, the picker and its script.
+   Hide-states only apply when motion is allowed, so "Reduce motion" users see the finished page. */
+
+#plans{overflow-x:clip}
+
+/* picker (demo tool only) */
+.animpick{position:fixed;z-index:60;left:8px;right:8px;bottom:calc(74px + env(safe-area-inset-bottom));display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;background:#ffe27a;color:#3b2f00;border-radius:16px;padding:8px;box-shadow:0 6px 24px rgba(0,0,0,.35);font-size:.9rem}
+.animpick b{font-weight:800;padding:0 6px}
+.animpick button{font:inherit;font-weight:700;min-height:40px;padding:0 14px;border-radius:999px;border:2px solid #3b2f00;background:transparent;color:#3b2f00;cursor:pointer}
+.animpick button[aria-pressed="true"]{background:#16181d;border-color:#16181d;color:#fff}
+.animpick small{flex-basis:100%;text-align:center;font-weight:600}
+@media(min-width:820px){.animpick{left:18px;right:auto;bottom:18px;max-width:440px}footer{padding-bottom:110px}}
+
+@media (prefers-reduced-motion:no-preference){
+
+/* ---------- shared reveal helpers ---------- */
+.rv{opacity:0;transform:translateY(26px)}
+.rv.in{opacity:1;transform:none;transition:opacity .7s ease,transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.rvp{opacity:0;transform:scale(.88) translateY(18px)}
+.rvp.in{opacity:1;transform:none;transition:opacity .45s ease,transform .75s cubic-bezier(.3,1.5,.5,1);transition-delay:var(--d,0s)}
+
+/* ---------- STYLE 1: plates roll onto the bar ---------- */
+html[data-anim="plates"] .plate:not(.go){opacity:0}
+html[data-anim="plates"] .plate.go{animation:roll 1.05s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--dl,0s)}
+html[data-anim="plates"] .plate.s3.go{animation:roll 1.05s cubic-bezier(.2,.8,.2,1) both,glow 1.6s ease-out 1.3s both;animation-delay:var(--dl,0s),calc(var(--dl,0s) + 1s)}
+html[data-anim="plates"] .plan .per,html[data-anim="plates"] .plan .sub,html[data-anim="plates"] .plan .tag{opacity:0}
+html[data-anim="plates"] .plan.go .per,html[data-anim="plates"] .plan.go .sub{opacity:1;transition:opacity .6s ease calc(var(--dl,0s) + .55s)}
+html[data-anim="plates"] .plan.go .tag{opacity:1;animation:pop .6s cubic-bezier(.3,1.6,.5,1) both;animation-delay:calc(var(--dl,0s) + 1.1s)}
+html[data-anim="plates"] .bar::before{clip-path:inset(0 0 100% 0);transition:clip-path 1.2s ease}
+html[data-anim="plates"] .bar.go::before{clip-path:inset(0)}
+html[data-anim="plates"] .plan:nth-child(odd) .plate{--from:-150px;--rot:-240deg}
+html[data-anim="plates"] .plan:nth-child(even) .plate{--from:150px;--rot:240deg}
+@media(min-width:900px){
+  html[data-anim="plates"] .bar::before{clip-path:inset(0 100% 0 0)}
+  html[data-anim="plates"] .bar.go::before{clip-path:inset(0)}
+  html[data-anim="plates"] .plan .plate{--from:340px;--rot:540deg}
+}
+@keyframes roll{
+  from{opacity:0;transform:translateX(var(--from,150px)) rotate(var(--rot,240deg))}
+  35%{opacity:1}
+  to{opacity:1;transform:none}
+}
+@keyframes pop{0%{opacity:0;transform:scale(.2)}100%{opacity:1;transform:scale(1)}}
+@keyframes glow{0%{filter:drop-shadow(0 0 0 rgba(255,115,88,0))}40%{filter:drop-shadow(0 0 26px rgba(255,115,88,.75))}100%{filter:drop-shadow(0 0 0 rgba(255,115,88,0))}}
+
+/* ---------- STYLE 2: the lift (headline rise, rep counter, soft reveals) ---------- */
+.w{display:inline-block;overflow:hidden;vertical-align:bottom;padding:.06em 0;margin:-.06em 0}
+.w>span{display:inline-block}
+html[data-anim="rep"] .w>span{transform:translateY(110%)}
+html[data-anim="rep"] .hero h1.go .w>span{animation:wordUp .85s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*.1s + .1s)}
+@keyframes wordUp{from{transform:translateY(110%)}to{transform:none}}
+.lift{margin:34px 0 0;width:min(320px,80%);position:relative}
+.lift svg{display:block;width:100%;height:auto;overflow:visible}
+.lift .rig{animation:rep 3.2s ease-in-out infinite}
+.lift .shadow{transform-box:fill-box;transform-origin:center;animation:shade 3.2s ease-in-out infinite}
+.lift .reps{position:absolute;left:0;top:-4px;font-family:"Anybody",sans-serif;font-weight:800;font-stretch:125%;font-size:1rem;color:#d9dadd}
+.lift .reps b{color:var(--red-bright);font-size:1.6rem;margin-left:4px}
+@keyframes rep{0%,100%{transform:translateY(0)}42%,58%{transform:translateY(-52px)}}
+@keyframes shade{0%,100%{transform:scaleX(1);opacity:.4}42%,58%{transform:scaleX(.72);opacity:.2}}
+@media(min-width:1200px){.lift{position:absolute;right:max(24px,calc((100% - 1120px)/2));bottom:96px;width:400px;margin:0}}
+
+/* ---------- STYLE 3: energy (ticker, count-ups, pulse, pop-in cards) ---------- */
+.ticker{background:var(--red);color:#fff;overflow:hidden;white-space:nowrap;padding:12px 0;font-family:"Anybody",sans-serif;font-weight:800;font-stretch:120%;font-size:1.05rem}
+.ticker .track{display:inline-flex;animation:tick 34s linear infinite;will-change:transform}
+.ticker:hover .track{animation-play-state:paused}
+.ticker span{padding:0 22px}
+.ticker span::after{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:#fff;opacity:.85;margin-left:44px;vertical-align:middle}
+@keyframes tick{to{transform:translateX(-50%)}}
+html[data-anim="energy"] .btn{position:relative;transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+html[data-anim="energy"] .btn:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(0,0,0,.35)}
+html[data-anim="energy"] .hero .btn-wa,html[data-anim="energy"] .callbar .btn-wa{animation:ring 2.6s ease-out infinite}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(60,200,120,.65)}70%,100%{box-shadow:0 0 0 16px rgba(60,200,120,0)}}
+html[data-anim="energy"] .plan .tag.best{background:linear-gradient(100deg,#ffe27a 30%,#fff7d1 50%,#ffe27a 70%);background-size:250% 100%;animation:shine 2.8s linear infinite}
+@keyframes shine{from{background-position:150% 0}to{background-position:-50% 0}}
+html[data-anim="energy"] .plate{transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
+html[data-anim="energy"] .plate:hover{transform:scale(1.05)}
+}
+
+/* the ticker only exists in the energy style, and is static for reduced motion */
+@media (prefers-reduced-motion:reduce){.ticker .track{animation:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<aside class="sample-bar" aria-label="Sample notice"><strong>Prototype.</strong> Made by Your Name for Body Line Fitness Centre. Phone numbers, addresses, timings and photos are placeholders.</aside>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><i aria-hidden="true"></i>Body Line Fitness Centre</a>
+    <nav aria-label="Main"><a href="#how">How it works</a><a href="#plans">Plans</a><a href="#visit">Visit</a><a href="#find">Branches</a><a href="#faq">FAQ</a><a href="dashboard.html">Member dashboard</a></nav>
+    <a class="btn btn-red btn-sm" href="#find">Call now</a>
+  </div>
+</header>
+
+<main id="main">
+<div class="hero" id="top">
+  <div class="wrap">
+    <h1>Come in. Look around. <em>Then decide.</em></h1>
+    <p class="lead">Call or message your nearest branch in Mahishadal or Nandakumar, drop by, and let our trainer show you the machines, the facilities and a diet plan that fits you. You join only if you like what you see.</p>
+    <div class="cta">
+      <a class="btn btn-red" href="#find">Call a branch</a>
+      <a class="btn btn-wa" href="#call">Book a visit</a>
+      <a class="btn btn-line" href="#plans">See plans</a>
+    </div>
+    <p class="note">Two branches: Mahishadal and Nandakumar. Memberships start at ₹500 a month. No pressure at the first visit.</p>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <p class="kicker">How joining works</p>
+    <h2>Three steps. The last one is yours.</h2>
+    <ol class="steps">
+      <li><h3>Call or WhatsApp</h3><p>Pick your branch and tell us when you can come. We will keep a trainer free for you.</p></li>
+      <li><h3>Visit the gym</h3><p>The trainer walks you through the machines and facilities, and talks about diet for your goal.</p></li>
+      <li><h3>Join if you like it</h3><p>Happy with what you saw? Pick a plan. If not, no problem at all.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="plans">
+  <div class="wrap">
+    <p class="kicker">Membership plans</p>
+    <h2>Pick your plate</h2>
+    <p class="intro">Three plans. The longer you commit, the less each month costs.</p>
+    <div class="bar">
+      <div class="plan">
+        <div class="plate s1"><span class="m">3 months</span><span class="p">₹1,500</span></div>
+        <p class="per">₹500 <span>per month</span></p>
+        <p class="sub">A good way to start.</p>
+      </div>
+      <div class="plan">
+        <div class="plate s2"><span class="m">6 months</span><span class="p">₹3,000</span></div>
+        <p class="per">₹500 <span>per month</span></p>
+        <p class="sub">Half a year, one payment.</p>
+      </div>
+      <div class="plan">
+        <div class="plate s3"><span class="m">12 months</span><span class="p">₹4,800</span></div>
+        <p class="per">₹400 <span>per month</span></p>
+        <span class="tag best">Best value</span>
+        <p class="sub">Saves ₹1,200 compared with four 3-month plans (₹6,000).</p>
+      </div>
+    </div>
+    <div class="plans-foot">
+      <p>Not sure which one? Visit first. The trainer will help you choose.</p>
+      <a class="btn btn-red" href="#call">Book a free visit</a>
+      <a class="btn btn-line" href="#find">Call to ask</a>
+    </div>
+  </div>
+</section>
+
+<section id="visit">
+  <div class="wrap visit">
+    <div>
+      <p class="kicker">What you will see</p>
+      <h2>See it before you pay for it</h2>
+      <ul class="checks">
+        <li><span>Machines and equipment<small>The trainer shows you how each one is used.</small></span></li>
+        <li><span>Gym facilities<small>Walk the floor and check everything yourself.</small></span></li>
+        <li><span>Diet advice<small>A simple plan for your goal, explained in plain words.</small></span></li>
+        <li><span>The benefits of training<small>Honest answers to your questions, with no pressure.</small></span></li>
+      </ul>
+    </div>
+    <div class="photos">
+      <div class="ph">Photo: main gym floor</div>
+      <div class="ph">Photo: machines</div>
+      <div class="ph">Photo: trainer</div>
+    </div>
+  </div>
+</section>
+
+<section id="find">
+  <div class="wrap">
+    <p class="kicker">Our branches</p>
+    <h2>Two gyms. Drop in any day.</h2>
+    <span class="flag">Sample addresses and timings. To be confirmed with the owner.</span>
+    <div class="branches">
+      <article class="branch" id="b-mahishadal">
+        <h3>Mahishadal</h3>
+        <p class="addr">Full address to be added, Mahishadal</p>
+        <table class="hours" aria-label="Opening hours at Mahishadal">
+          <tbody>
+            <tr><th scope="row">Mon to Sat</th><td>5:30 am – 10:00 am<br>4:30 pm – 9:30 pm</td></tr>
+            <tr><th scope="row">Sunday</th><td>6:00 am – 10:00 am</td></tr>
+          </tbody>
+        </table>
+        <div class="bact">
+          <a class="btn btn-red btn-sm" href="tel:+910000000000" data-tel="mahishadal">Call</a>
+          <a class="btn btn-wa btn-sm" href="#call" data-branch="mahishadal">WhatsApp</a>
+          <a class="btn btn-ink btn-sm" href="https://www.google.com/maps/search/?api=1&amp;query=Body+Line+Fitness+Centre+Mahishadal" target="_blank" rel="noopener">Directions</a>
+        </div>
+      </article>
+      <article class="branch" id="b-nandakumar">
+        <h3>Nandakumar</h3>
+        <p class="addr">Full address to be added, Nandakumar</p>
+        <table class="hours" aria-label="Opening hours at Nandakumar">
+          <tbody>
+            <tr><th scope="row">Mon to Sat</th><td>5:30 am – 10:00 am<br>4:30 pm – 9:30 pm</td></tr>
+            <tr><th scope="row">Sunday</th><td>6:00 am – 10:00 am</td></tr>
+          </tbody>
+        </table>
+        <div class="bact">
+          <a class="btn btn-red btn-sm" href="tel:+910000000000" data-tel="nandakumar">Call</a>
+          <a class="btn btn-wa btn-sm" href="#call" data-branch="nandakumar">WhatsApp</a>
+          <a class="btn btn-ink btn-sm" href="https://www.google.com/maps/search/?api=1&amp;query=Body+Line+Fitness+Centre+Nandakumar" target="_blank" rel="noopener">Directions</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <p class="kicker">Questions</p>
+    <h2>Before you call</h2>
+    <div class="faq">
+      <details><summary>Where are your branches?</summary><p>We have two branches, in Mahishadal and Nandakumar. Choose the nearest one when you book, or call it directly.</p></details>
+      <details><summary>Do I have to join after my visit?</summary><p>No. Visit, look around and talk to the trainer. You join only if you like it.</p></details>
+      <details><summary>Which plan is the cheapest per month?</summary><p>The 12-month plan at ₹4,800 works out to ₹400 a month. The 3-month and 6-month plans are both ₹500 a month.</p></details>
+      <details><summary>Can I get diet advice?</summary><p>Yes. The trainer talks through diet with you during your visit.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="call">
+  <div class="wrap callgrid">
+    <div>
+      <p class="kicker">Book a visit</p>
+      <h2>We will call you back</h2>
+      <p style="margin-top:16px;color:#d9dadd">Choose your branch, leave your name and number. Prefer to talk now? Call the branch directly.</p>
+      <div class="alt">
+        <a class="btn btn-red" href="#find">Call a branch</a>
+      </div>
+    </div>
+    <form id="form" novalidate>
+      <div class="hp" aria-hidden="true"><label>Leave empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <div><label for="b">Branch</label>
+        <select id="b" name="branch"><option value="mahishadal">Mahishadal</option><option value="nandakumar">Nandakumar</option></select></div>
+      <div><label for="n">Your name</label><input id="n" name="name" autocomplete="name" required></div>
+      <div><label for="t">Mobile number</label><input id="t" name="tel" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit number" required></div>
+      <div><label for="w">Best time to visit</label>
+        <select id="w" name="when"><option>Morning</option><option>Evening</option><option>Any time</option></select></div>
+      <button class="btn btn-wa" type="submit">Request a call-back on WhatsApp</button>
+      <p class="msg" id="msg" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong style="color:#fff">Body Line Fitness Centre Gym</strong>
+    <span>Branches: <a href="#b-mahishadal">Mahishadal</a> · <a href="#b-nandakumar">Nandakumar</a></span>
+    <span><a href="dashboard.html">Member dashboard (prototype)</a></span>
+    <span>Website prototype by Your Name.</span>
+  </div>
+</footer>
+
+<nav class="callbar" aria-label="Quick contact"><a class="btn btn-red" href="#find">Call</a><a class="btn btn-wa" href="#call">WhatsApp</a></nav>
+
+<script>
+/* Set each branch's numbers. Country code first, digits only for wa (e.g. 919812345678); tel with + (e.g. +919812345678). */
+var GYM = 'Body Line Fitness Centre';
+var BRANCHES = {
+  mahishadal: { name: 'Mahishadal', wa: '910000000000', tel: '+910000000000' },
+  nandakumar: { name: 'Nandakumar', wa: '910000000000', tel: '+910000000000' }
+};
+function isPh(b){ return /^91(0+)$/.test(b.wa); }
+function waLink(b, text){ return 'https://wa.me/' + b.wa + '?text=' + encodeURIComponent(text); }
+
+var form = document.getElementById('form'), msg = document.getElementById('msg');
+
+document.querySelectorAll('[data-tel]').forEach(function(a){ a.href = 'tel:' + BRANCHES[a.dataset.tel].tel; });
+document.querySelectorAll('[data-branch]').forEach(function(a){
+  var b = BRANCHES[a.dataset.branch];
+  if(!isPh(b)){
+    a.href = waLink(b, 'Hi ' + GYM + ' (' + b.name + ' branch), I would like to visit and know about the plans.');
+    a.target = '_blank'; a.rel = 'noopener';
+  } else {
+    a.addEventListener('click', function(){ form.branch.value = a.dataset.branch; });
+  }
+});
+
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  msg.className = 'msg';
+  if(form.website.value){ return; }
+  var b = BRANCHES[form.branch.value];
+  var name = form.name.value.trim(), tel = form.tel.value.replace(/[\s-]/g,'').replace(/^(\+91|91|0)(?=\d{10}$)/,'');
+  if(!name){ msg.textContent = 'Please enter your name.'; msg.className='msg err'; form.name.focus(); return; }
+  if(!/^[6-9]\d{9}$/.test(tel)){ msg.textContent = 'Please enter a valid 10-digit mobile number.'; msg.className='msg err'; form.tel.focus(); return; }
+  var text = 'Hi ' + GYM + ' (' + b.name + ' branch), my name is ' + name + ' (' + tel + '). I would like to visit in the ' + form.when.value.toLowerCase() + '. Please call me back.';
+  if(isPh(b)){
+    msg.textContent = 'Demo: with the real ' + b.name + ' number, this opens WhatsApp with your message ready to send.';
+    msg.className = 'msg ok'; return;
+  }
+  window.open(waLink(b, text), '_blank', 'noopener');
+  msg.textContent = 'Opening WhatsApp. Press send to finish.'; msg.className = 'msg ok';
+});
+</script>
+<script>
+/* ================= ANIMATION DEMO SCRIPT =================
+   Switches between three animation styles without reloading.
+   For the real site: keep one style's setup function, delete the rest and the picker. */
+(function(){
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var STYLES = ['plates','rep','energy','off'];
+  var $ = function(s, c){ return (c||document).querySelector(s); };
+  var $$ = function(s, c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); };
+
+  var undo = [];   // functions that restore the page to its plain state
+  function later(fn, ms){ var t = setTimeout(fn, ms); undo.push(function(){ clearTimeout(t); }); }
+  function mark(el, cls){ el.classList.add(cls); undo.push(function(){ el.classList.remove(cls); }); }
+  function observe(els, cb, opts){
+    if(!('IntersectionObserver' in window)){ els.forEach(function(e){ cb(e, 0); }); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ io.unobserve(en.target); cb(en.target, els.indexOf(en.target)); } });
+    }, opts || {threshold:.2, rootMargin:'0px 0px -6% 0px'});
+    els.forEach(function(e){ io.observe(e); });
+    undo.push(function(){ io.disconnect(); });
+  }
+  function reveal(sel, cls, step){
+    var els = $$(sel);
+    els.forEach(function(el, i){
+      el.style.setProperty('--d', ((i % (step||3)) * 0.12) + 's');
+      mark(el, cls);
+      undo.push(function(){ el.style.removeProperty('--d'); el.classList.remove('in'); });
+    });
+    observe(els, function(el){ el.classList.add('in'); });
+  }
+  function countUp(el, ms, delay){
+    var final = el.textContent, to = parseInt(final.replace(/\D/g,''), 10), raf;
+    var t0;
+    function step(t){
+      if(!t0) t0 = t;
+      var k = Math.min(1, (t - t0) / ms), e = 1 - Math.pow(1 - k, 3);
+      if(k < 1){ el.textContent = '₹' + Math.round(to * e).toLocaleString('en-IN'); raf = requestAnimationFrame(step); }
+      else el.textContent = final;
+    }
+    var t = setTimeout(function(){ raf = requestAnimationFrame(step); }, delay || 0);
+    undo.push(function(){ clearTimeout(t); cancelAnimationFrame(raf); el.textContent = final; });
+  }
+
+  /* ---------- 1. Plates ---------- */
+  function setupPlates(){
+    var bar = $('.bar'), plans = $$('.plan'), wide = window.matchMedia('(min-width:900px)').matches;
+    function go(plan, delay){
+      plan.style.setProperty('--dl', delay + 's');
+      plan.classList.add('go'); plan.querySelector('.plate').classList.add('go'); bar.classList.add('go');
+      countUp(plan.querySelector('.p'), 900, delay * 1000 + 250);
+    }
+    undo.push(function(){
+      bar.classList.remove('go');
+      plans.forEach(function(p){ p.classList.remove('go'); p.querySelector('.plate').classList.remove('go'); p.style.removeProperty('--dl'); });
+    });
+    if(wide){
+      observe([bar], function(){ plans.forEach(function(p, i){ go(p, i * .25); }); }, {threshold:.3});
+    } else {
+      observe(plans, function(p){ go(p, 0); }, {threshold:.35});
+    }
+  }
+
+  /* ---------- 2. The lift ---------- */
+  function splitWords(h1){
+    var i = 0;
+    (function walk(n){
+      Array.prototype.slice.call(n.childNodes).forEach(function(c){
+        if(c.nodeType === 3){
+          var frag = document.createDocumentFragment();
+          c.textContent.split(/(\s+)/).forEach(function(tok){
+            if(!tok) return;
+            if(/^\s+$/.test(tok)){ frag.appendChild(document.createTextNode(' ')); return; }
+            var w = document.createElement('span'), s = document.createElement('span');
+            w.className = 'w'; s.textContent = tok; s.style.setProperty('--i', i++); w.appendChild(s); frag.appendChild(w);
+          });
+          c.replaceWith(frag);
+        } else if(c.nodeType === 1){ walk(c); }
+      });
+    })(h1);
+  }
+  function setupRep(){
+    var h1 = $('.hero h1'), hero = $('.hero'), original = h1.innerHTML;
+    splitWords(h1);
+    undo.push(function(){ h1.innerHTML = original; h1.classList.remove('go'); });
+    observe([hero], function(){ h1.classList.add('go'); }, {threshold:.15});
+    // barbell with rep counter
+    var lift = document.createElement('div');
+    lift.className = 'lift'; lift.setAttribute('aria-hidden', 'true');
+    lift.innerHTML =
+      '<span class="reps">Rep <b>1</b></span>' +
+      '<svg viewBox="0 -30 400 220" focusable="false">' +
+      '<ellipse class="shadow" cx="200" cy="178" rx="150" ry="7" fill="#000" opacity=".4"/>' +
+      '<g class="rig">' +
+      '<rect x="10" y="88" width="380" height="8" rx="3" fill="#aab0bb"/>' +
+      '<rect x="48" y="30" width="22" height="124" rx="6" fill="#c9341a"/><rect x="74" y="44" width="16" height="96" rx="5" fill="#3a3f4a"/><rect x="94" y="58" width="10" height="68" rx="4" fill="#5a606c"/>' +
+      '<rect x="330" y="30" width="22" height="124" rx="6" fill="#c9341a"/><rect x="310" y="44" width="16" height="96" rx="5" fill="#3a3f4a"/><rect x="296" y="58" width="10" height="68" rx="4" fill="#5a606c"/>' +
+      '</g></svg>';
+    $('.hero .wrap').appendChild(lift);
+    var count = 1, num = $('b', lift), rig = $('.rig', lift);
+    function onIter(){ count = count % 12 + 1; num.textContent = count; }
+    rig.addEventListener('animationiteration', onIter);
+    undo.push(function(){ lift.remove(); });
+    reveal('.hero .lead, .hero .cta, .hero .note', 'rv', 3);
+    reveal('#how .kicker, #how h2, .steps li, #visit .kicker, #visit h2, .checks li, .ph, #find .kicker, #find h2, #faq .kicker, #faq h2, .faq details, .branch, #find .flag, #call .kicker, #call h2', 'rv', 3);
+    reveal('.plans-foot, #plans .kicker, #plans h2, #plans .intro', 'rv', 2);
+    reveal('.plan', 'rv', 3);
+  }
+
+  /* ---------- 3. Energy ---------- */
+  function setupEnergy(){
+    var hero = $('.hero');
+    var items = ['No pressure at the first visit','Visit before you decide','Trainer guidance','Diet advice','Two branches: Mahishadal and Nandakumar','Plans from ₹500 a month','Join only if you like it'];
+    function group(){ return items.concat(items).map(function(t){ return '<span>' + t + '</span>'; }).join(''); }
+    var tick = document.createElement('div');
+    tick.className = 'ticker'; tick.setAttribute('aria-hidden', 'true');
+    tick.innerHTML = '<div class="track">' + group() + group() + '</div>';
+    hero.after(tick);
+    undo.push(function(){ tick.remove(); });
+    $$('.plate').forEach(function(pl, i){
+      observe([pl], function(){ countUp($('.p', pl), 1000, i * 150); }, {threshold:.6});
+    });
+    reveal('.steps li, .plan, .checks li, .ph, .faq details, .branch', 'rvp', 3);
+  }
+
+  /* ---------- switcher ---------- */
+  function setStyle(name){
+    if(STYLES.indexOf(name) < 0) name = 'energy';
+    while(undo.length) undo.pop()();
+    root.setAttribute('data-anim', name);
+    if(!reduce){
+      if(name === 'plates') setupPlates();
+      if(name === 'rep') setupRep();
+      if(name === 'energy') setupEnergy();
+    }
+    $$('.animpick button').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.a === name)); });
+    try{ history.replaceState(null, '', '?anim=' + name + location.hash); }catch(e){}
+  }
+
+  var picker = document.createElement('aside');
+  picker.className = 'animpick'; picker.setAttribute('aria-label', 'Animation style preview');
+  picker.innerHTML = '<b>Animation</b>' +
+    '<button type="button" data-a="plates">Plates</button><button type="button" data-a="rep">Lift</button>' +
+    '<button type="button" data-a="energy">Energy</button><button type="button" data-a="off">Off</button>' +
+    (reduce ? '<small>Reduce Motion is on in this device’s settings, so animations are paused.</small>' : '');
+  document.body.appendChild(picker);
+  picker.addEventListener('click', function(e){
+    var b = e.target.closest('button[data-a]');
+    if(b){ setStyle(b.dataset.a); window.scrollTo({top: 0, behavior: 'instant'}); }
+  });
+
+  var first = new URLSearchParams(location.search).get('anim') || 'energy';
+  setStyle(first);
+})();
+</script>
+</body>
+</html>
